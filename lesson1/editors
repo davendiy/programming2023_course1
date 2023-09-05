@@ -1,0 +1,33 @@
+
+
+
+
+Lesson 1. Basics 
+
+
+
+
+============================= Editors ==============================
+
+
+# for normal people 
+1. Visual Studio Code https://code.visualstudio.com/ 
+2. Atom https://github.com/atom/atom   (Note: not supported) 
+3. Sublime Text https://www.sublimetext.com/
+
+# for nerds (terminal editors)  
+4. NeoVim https://neovim.io/        (aka modern text editor) 
+5. Helix https://helix-editor.com/  (aka __post__modern text editor)
+6. Nano 
+
+# for Python only 
+7. jupyter notebook  https://jupyter.org/  
+
+# IDE (NOTE: must have in enterprise development, 
+#            yet NOT RECOMMENDED for 1 course studying) 
+8. Pycharm https://www.jetbrains.com/pycharm/
+
+====================================================================
+
+
+

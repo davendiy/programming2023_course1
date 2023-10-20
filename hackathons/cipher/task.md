@@ -31,6 +31,6 @@
 
 ```python
 
-with open('Chorna_rada.txt', 'r') as file: 
+with open('Chorna_rada.txt', 'r', encoding='utf-8') as file: 
     text = file.read()
 ```

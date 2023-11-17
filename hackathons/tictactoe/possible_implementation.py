@@ -1,5 +1,4 @@
 
-
 def print_field(field):
     print('--------' * len(field[0]))
     for row in field:
@@ -32,7 +31,8 @@ def check_field(field):
                 if (i + 2 * delta_i) >= n: continue
                 if (j + 2 * delta_j) >= m: continue
 
-                if (field[i][j] == field[i + delta_i][j + delta_j] == field[i + 2 * delta_i][j + 2 * delta_j]) \
+                if (field[i][j] == field[i + delta_i][j + delta_j] ==
+                    field[i + 2 * delta_i][j + 2 * delta_j]) \
                     and field[i][j] != ' ':
 
                     return field[i][j]

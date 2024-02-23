@@ -99,36 +99,36 @@ def get_last_error():
 
 if __name__ == "__main__":
     add("a")
-    success = get_last_error() == 0
+    assert get_last_error() == 0
     add("a")
-    success = success and get_last_error() == 1
+    assert get_last_error() == 1
     c = get("a")
-    success = success and c == None and get_last_error() == 3
+    assert c == None and get_last_error() == 3
     c = get("b")
-    success = success and c == None and get_last_error() == 2
+    assert c == None and get_last_error() == 2
     set("a", 1)
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     c = get("a")
-    success = success and c == 1 and get_last_error() == 0
+    assert c == 1 and get_last_error() == 0
     set("b", 2)
-    success = success and get_last_error() == 2
+    assert get_last_error() == 2
     add("x")
     input_var("x")      # ввести значення x = 2
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     f = get("x")
-    success = success and f == 2 and get_last_error() == 0
+    assert f == 2 and get_last_error() == 0
     clear()
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     add("a")
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     add("d")
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     input_all()  # ввести значення a = 3, d = 4
-    success = success and get_last_error() == 0
+    assert get_last_error() == 0
     c = get("a")
-    success = success and c == 3 and get_last_error() == 0
+    assert c == 3 and get_last_error() == 0
     f = get("d")
-    success = success and f == 4 and get_last_error() == 0
-    success = success and is_in("a")
+    assert f == 4 and get_last_error() == 0
+    assert is_in("a")
 
-    print("Success =", success)
+    print("Success = True")

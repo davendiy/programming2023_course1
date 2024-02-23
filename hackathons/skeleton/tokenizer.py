@@ -48,8 +48,11 @@ class Token:
         self.type = type
         self.value = value 
 
+    def __eq__(self, __value: object) -> bool:
+        return self.type == __value.type and self.value == __value.value
+
     def __repr__(self): 
-        return f'Token({self.type}, {self.value})'
+        return f"Token(type='{self.type}', value='{self.value}')"
 
 
 def get_tokens(string):
@@ -142,32 +145,50 @@ def _get_other(string):
     pass
 
 
-
-
 if __name__ == "__main__":
 
-    success = get_tokens("(((ab1_ - 345.56)(*/.2{_cde23") == (
-        [Token(type='left_paren', value='('),
-         Token(type='left_paren', value='('),
-         Token(type='left_paren', value='('),
-         Token(type='variable', value='ab1_'),
-         Token(type='operation', value='-'),
-         Token(type='constant', value='345.56'),
-         Token(type='right_paren', value=')'),
-         Token(type='left_paren', value='('),
-         Token(type='operation', value='*'),
-         Token(type='operation', value='/'),
-         Token(type='other', value='.'),
-         Token(type='constant', value='2'),
-         Token(type='other', value='{'),
-         Token(type='variable', value='_cde23')])
+    needed = [
+        Token(type='left_paren', value='('),
+        Token(type='left_paren', value='('),
+        Token(type='left_paren', value='('),
+        Token(type='variable', value='ab1_'),
+        Token(type='operation', value='-'),
+        Token(type='constant', value='345.56'),
+        Token(type='right_paren', value=')'),
+        Token(type='left_paren', value='('),
+        Token(type='operation', value='*'),
+        Token(type='operation', value='/'),
+        Token(type='other', value='.'),
+        Token(type='constant', value='2'),
+        Token(type='other', value='{'),
+        Token(type='variable', value='_cde23')
+    ]
 
-    success = success and get_tokens("x = (a + b)") == [
+    success = (x := get_tokens("(((ab1_ - 345.56)(*/.2{_cde23")) == needed 
+    if not success: 
+        if len(x) != len(needed): 
+            print(f'wrong amount of tokens. Expected: {len(needed)}, got: {len(x)}')
+        for exp, real in zip(needed, x): 
+            if exp != real: 
+                print(f'Expected: {exp}, got {real}')
+        
+
+    needed = [
         Token(type='variable', value='x'),
         Token(type='equal', value='='),
         Token(type='left_paren', value='('),
         Token(type='variable', value='a'),
         Token(type='operation', value='+'),
         Token(type='variable', value='b'),
-        Token(type='right_paren', value=')')]
+        Token(type='right_paren', value=')')
+    ]
+
+    success = success and (x := get_tokens("x = (a + b)")) == needed
+    if not success: 
+        if len(x) != len(needed): 
+            print(f'wrong amount of tokens. Expected: {len(needed)}, got: {len(x)}')
+        for exp, real in zip(needed, x): 
+            if exp != real: 
+                print(f'Expected: {exp}, got {real}')        
+
     print("Success =", success)

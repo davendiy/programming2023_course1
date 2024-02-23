@@ -135,20 +135,14 @@ if __name__ == "__main__":
     success9, error9 = check_assignment_syntax(get_tokens("x ="))
     success10, error10 = check_assignment_syntax(get_tokens("x = (a+b)"))
 
-    success = (
-        not success1 and error1 == 'Неправильно розставлені дужки' and
-        not success2 and error2 ==
-        "Недопустима пара токенів Token(type='operation', value='*'),"
-        " Token(type='operation', value='/')" and
-        not success3 and not success4 and
-        not success5 and error5 ==
-        "Недопустима пара токенів Token(type='operation', value='-'), "
-        "Token(type='other', value='.')" and
-        not success6 and error6 == "Порожній вираз" and
-        success7 and error7 == "" and
-        not success8 and error8 == "Неправильне присвоєння" and
-        not success9 and error9 == "Порожній вираз" and
-        success10 and error10 == ""
-    )
-
-    print("Success =", success)
+    assert not success1 and error1 == 'Неправильно розставлені дужки'
+    assert not success2 and error2 == "Недопустима пара токенів Token(type='operation', value='*'), Token(type='operation', value='/')" 
+    assert not success3 and not success4 
+    assert not success5 and error5 == "Недопустима пара токенів Token(type='operation', value='-'), Token(type='other', value='.')" 
+    assert not success6 and error6 == "Порожній вираз" 
+    assert success7 and error7 == "" 
+    assert not success8 and error8 == "Неправильне присвоєння" 
+    assert not success9 and error9 == "Порожній вираз" 
+    assert success10 and error10 == ""
+    
+    print("Success =", True)

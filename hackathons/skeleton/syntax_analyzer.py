@@ -61,7 +61,7 @@ VALID_START = ('variable', 'constant', 'left_paren')
 VALID_END = ('variable', 'constant', 'right_paren')
 
 
-def check_assignment_syntax(tokens: list[Token]):
+def check_assignment_syntax(tokens):
     """Функція перевіряє синтаксичну правильність присвоєння за списком токенів.
 
     Повертає True/False та рядок помилки.
@@ -76,7 +76,7 @@ def check_assignment_syntax(tokens: list[Token]):
     pass
 
 
-def check_expression_syntax(tokens: list[Token]):
+def check_expression_syntax(tokens):
     """Функція перевіряє синтаксичну правильність виразу за списком токенів.
 
     Повертає True/False та рядок помилки.

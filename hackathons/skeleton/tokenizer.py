@@ -22,7 +22,7 @@ TOKEN_TYPE = (
     "variable",
     "constant",
     "operation",
-    "equal"
+    "equal",
     "left_paren",
     "right_paren",
     "other", 
@@ -44,7 +44,7 @@ TOKEN_TYPES = {
 class Token: 
 
     def __init__(self, type, value): 
-        assert self.type in TOKEN_TYPE, 'недопустимий тип токена'
+        assert type in TOKEN_TYPE, 'недопустимий тип токена'
         self.type = type
         self.value = value 
 

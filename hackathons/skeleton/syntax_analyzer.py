@@ -31,7 +31,7 @@
 для присвоєння має повернути булівське значення та (можливо) помилку.
 """
 
-from .tokenizer import get_tokens, Token
+from tokenizer import get_tokens, Token
 
 # словник множин допустимих наступних токенів для заданого токена
 VALID_PAIRS = {

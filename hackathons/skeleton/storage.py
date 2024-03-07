@@ -113,6 +113,7 @@ if __name__ == "__main__":
     set("b", 2)
     assert get_last_error() == 2
     add("x")
+    assert get_last_error() == 0
     input_var("x")      # ввести значення x = 2
     assert get_last_error() == 0
     f = get("x")
@@ -130,5 +131,8 @@ if __name__ == "__main__":
     f = get("d")
     assert f == 4 and get_last_error() == 0
     assert is_in("a")
+    assert get_last_error() == 0
+
+    assert not is_in("_asda") and get_last_error() == 0
 
     print("Success = True")

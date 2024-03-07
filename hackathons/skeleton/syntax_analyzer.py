@@ -134,7 +134,10 @@ if __name__ == "__main__":
     success8, error8 = check_assignment_syntax(get_tokens("x + y"))
     success9, error9 = check_assignment_syntax(get_tokens("x ="))
     success10, error10 = check_assignment_syntax(get_tokens("x = (a+b)"))
-
+    success11, error11 = check_assignment_syntax(get_tokens("x = (a = b)"))
+    success12, error12 = check_assignment_syntax(get_tokens("_sdf = ="))
+    success13, error13 = check_expression_syntax(get_tokens("x = x"))
+    
     assert not success1 and error1 == 'Неправильно розставлені дужки'
     assert not success2 and error2 == "Недопустима пара токенів Token(type='operation', value='*'), Token(type='operation', value='/')" 
     assert not success3 and not success4 
@@ -142,7 +145,10 @@ if __name__ == "__main__":
     assert not success6 and error6 == "Порожній вираз" 
     assert success7 and error7 == "" 
     assert not success8 and error8 == "Неправильне присвоєння" 
-    assert not success9 and error9 == "Порожній вираз" 
+    assert not success9 and error9 == "Порожній вираз"
     assert success10 and error10 == ""
-    
+    assert not success11 and error11 == "Недопустима пара токенів Token(type='variable', value='a'), Token(type='equal', value='=')"
+    assert not success12 and error12 == "Недопустимий початок або кінець"
+    assert not success13 and error13 == "Недопустима пара токенів Token(type='variable', value='x'), Token(type='equal', value='=')"
+
     print("Success =", True)

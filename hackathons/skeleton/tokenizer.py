@@ -191,4 +191,30 @@ if __name__ == "__main__":
             if exp != real: 
                 print(f'Expected: {exp}, got {real}')        
 
+    needed = [
+        Token(type='variable', value='x'), 
+        Token(type='equal', value='='), 
+        Token(type='left_paren', value='('), 
+        Token(type='variable', value='_a_s12'), 
+        Token(type='operation', value='+'), 
+        Token(type='constant', value='12.12321'), 
+        Token(type='right_paren', value=')'), 
+        Token(type='operation', value='*'), 
+        Token(type='left_paren', value='('), 
+        Token(type='constant', value='123'), 
+        Token(type='variable', value='_asd'),
+        Token(type='other', value='.'), 
+        Token(type='operation', value='-'), 
+        Token(type='constant', value='3.'), 
+        Token(type='right_paren', value=')'),
+    ]
+
+    success = success and (x := get_tokens("x = (_a_s12 + 12.12321)*(123 _asd. - 3.)")) == needed
+    if not success: 
+        if len(x) != len(needed): 
+            print(f'wrong amount of tokens. Expected: {len(needed)}, got: {len(x)}')
+        for exp, real in zip(needed, x): 
+            if exp != real: 
+                print(f'Expected: {exp}, got {real}')        
+
     print("Success =", success)

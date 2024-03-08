@@ -257,10 +257,30 @@ if __name__ == "__main__":
 
     success = not error and code2 == needed 
     if len(code2) != len(needed): 
-        print(f"wrong amount of commands: expected {len(needed)}, got {len(code1)}")
+        print(f"wrong amount of commands: expected {len(needed)}, got {len(code2)}")
     elif not success: 
         for exp, got in zip(needed, code2): 
             if exp != got: 
                 print(f'wrong code command: expected {exp}, got {got}')
 
-    print(*generate_code(['x = 1 + 2 + 3 + 4 + ((((3))))'])[0], sep='\n')
+    needed = [
+        ('LOADC', 1.0),
+        ('LOADC', 2.0),
+        ('ADD', None),
+        ('LOADC', 3.0),
+        ('ADD', None),
+        ('LOADC', 4.0),
+        ('ADD', None),
+        ('LOADC', 3.0),
+        ('ADD', None),
+        ('SET', 'x'),
+    ]
+
+    code3, error = generate_code(['x = 1 + 2 + 3 + 4 + ((((3))))'])
+    success = not error and code3 == needed 
+    if len(code3) != len(needed): 
+        print(f"wrong amount of commands: expected {len(needed)}, got {len(code3)}")
+    elif not success: 
+        for exp, got in zip(needed, code3): 
+            if exp != got: 
+                print(f'wrong code command: expected {exp}, got {got}')

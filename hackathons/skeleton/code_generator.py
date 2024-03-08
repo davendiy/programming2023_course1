@@ -238,8 +238,6 @@ if __name__ == "__main__":
     assert is_in('a')
     assert is_in('x')
 
-    print("Success =", success)
-
     code2, error = generate_code(['x = ((_abc + 3.12) * (12 - (3 * 2)))'])
 
     needed = [
@@ -284,3 +282,5 @@ if __name__ == "__main__":
         for exp, got in zip(needed, code3): 
             if exp != got: 
                 print(f'wrong code command: expected {exp}, got {got}')
+
+    print("Success =", success)

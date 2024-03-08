@@ -142,14 +142,7 @@ def _expression(code: list, tokens: List[Token]):
     :param tokens: список токенів
     :return: None
     """
-    _term(code, tokens)
-    while tokens and tokens[0].value in '+-':
-        tok = tokens.pop(0)
-        _term(code, tokens)
-        if tok.value == "+":
-            code.append(("ADD", None))
-        else:
-            code.append(("SUB", None))
+    pass
 
 
 def _term(code: list, tokens: List[Token]):

@@ -58,8 +58,7 @@ class Triangle(Figure):
 class Trapeze(Figure): 
     
     def __init__(self, a, b, c) -> None:
-        super().__init__(safe=False)
-        pass 
+        super().__init__(safe=False) 
 
 
 class Parallelogram(Figure): 

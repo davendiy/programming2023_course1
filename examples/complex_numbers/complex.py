@@ -10,6 +10,10 @@ except ImportError:
 
 class ComplexNumber: 
 
+    # додаємо наші атрибути у спеціальну властивість всіх класів __slots__, 
+    # щоб зменшити використання памʼяті і збільшити швидкодію
+    # Зауваження (спойлер): по хорошому варто було б використати dataclass або 
+    #     наслідуватись від кортежа / іменованого кортежа
     __slots__ = ['_x', '_y']
 
     def __init__(self, x, y): 
@@ -206,7 +210,7 @@ if __name__ == '__main__':
     # print(test_number.func())
 
     # # print methods 
-    print(test_number.real(), test_number.imag())
+    print(test_number.real, test_number.imag)
     print(test_number.norm())
 
     print(test_number / 10)

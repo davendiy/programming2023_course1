@@ -1,4 +1,4 @@
-from math import sqrt, atan, asin, pi, cos, sin
+from math import sqrt, asin, pi, cos, sin
 
 try: 
     import matplotlib.pyplot as plt 
@@ -10,16 +10,28 @@ except ImportError:
 
 class ComplexNumber: 
 
-    __slots__ = ['x', 'y']
+    __slots__ = ['_x', '_y']
 
     def __init__(self, x, y): 
-        """Create a complex number x + y*i.
+        """Ініціалізувати комплексне число x + y*i.
+        
+        TODO: 
+           - make class immutable
 
         :param x: real part 
         :param y: imaginary part
         """        
-        self.x = x 
-        self.y = y 
+        # зберігаємо дійсну і уявну частину як приватні атрибути
+        self._x = x 
+        self._y = y
+
+    @property
+    def x(self): 
+        return self._x
+
+    @property
+    def y(self): 
+        return self._y
 
     @classmethod
     def from_trigonometric(cls, r, phi):
@@ -33,6 +45,14 @@ class ComplexNumber:
     def radius(self): 
         return self.norm()
 
+    @property
+    def r(self): 
+        return self.radius()
+
+    @property
+    def phi(self): 
+        return self.angle()
+
     def angle(self): 
         if self == 0: 
             raise ValueError('unknown angle for zero number')
@@ -43,9 +63,11 @@ class ComplexNumber:
             phi = pi - asin(self.y / self.norm())
         return phi 
 
+    @property
     def real(self): 
         return self.x
 
+    @property
     def imag(self): 
         return self.y
 
@@ -140,7 +162,7 @@ class ComplexNumber:
 
     def as_trigonometric(self): 
         """Повертає r, phi -- модуль і кут."""
-        return self.radius(), self.angle()
+        return self.r, self.phi
 
     def inverse(self): 
         """Рахує (1 / self)."""

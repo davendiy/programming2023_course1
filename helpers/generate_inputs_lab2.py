@@ -43,7 +43,10 @@ def random_number():
 
 def random_poly():
     degree = random.randint(1, 20) 
-    res = ','.join([random_number() for _ in range(degree)])
+    if random.random() > 0.1: 
+        res = ','.join([random_number() for _ in range(degree)])
+    else: 
+        res = ','.join([random_integer() for _ in range(degree)])
     return res 
 
 

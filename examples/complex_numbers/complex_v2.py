@@ -8,41 +8,58 @@ except ImportError:
     plt = None 
 
 
-class ComplexNumber: 
 
-    # додаємо наші атрибути у спеціальну властивість всіх класів __slots__, 
-    # щоб зменшити використання памʼяті і збільшити швидкодію
-    # Зауваження (спойлер): по хорошому варто було б використати dataclass або 
-    #     наслідуватись від кортежа / іменованого кортежа, щоб зробити цей клас 
-    #     незмінним
-    __slots__ = ['_x', '_y', '_r', '_phi']
+class ComplexNumber(tuple): 
+    """Один з варіантів як зробити клас незмінним -- наслідуватись 
+    від кортежа. Нехай комплексне число -- це кортеж з двох елементів 
+    (x, y). Нам потрібно, щоб при виклику ComplexNumber(x, y) такий 
+    кортеж створювався, а self.x і self.y повертали нульовий і перший 
+    елементи відповідно.
+    
+    Але у такому разі нам знадобиться інший метод конструктор
+    замість __init__."""
+
+    # ВАЖЛИВО: ми не можемо використати __slots__, якщо наслідуємся від кортежа
+    # __slots__ = ['_r', '_phi']
+
+    def __new__(cls, x, y):
+        """Конструктор, який викликається перед __init__ і, власне, 
+        створює обʼєкт, в той час як __init__ тільки додає атрибути. 
+        
+        Оскільки в кортежа нема атрибутів, нам доведеться перевизначити 
+        саме метод __new__.""" 
+        return super().__new__(cls, [x, y])
 
     def __init__(self, x, y): 
         """Ініціалізувати комплексне число x + y*i.
 
+        Тут тільки додаємо наші атрибути _r, _phi суто як 
+        кешування для тригонометричної форми. 
+
+        Зауваження: це мало б сенс, якби тригонометрична форма рахувалась 
+        довго і часто. В даному випадку це трохи натягнутий приклад і тільки 
+        збільшує розмір класу. 
+
         :param x: real part 
         :param y: imaginary part
-        """        
-        # зберігаємо дійсну і уявну частину як приватні атрибути
-        self._x = x 
-        self._y = y
-
-        # тригонометрична форма, яка буде обраховуватись тільки якщо треба буде
+        """
+        super().__init__()
         self._r = None 
         self._phi = None
 
+    # Тепер атрибути self._x i self._y не існують, натомість 
+    # нам треба власноруч діставати їх як нульовий і перший елементи 
+    # кортежа відповідно.
     @property
     def x(self): 
-        return self._x
+        return self[0]
 
     @property
     def y(self): 
-        return self._y
+        return self[1]
 
     @classmethod
     def from_trigonometric(cls, r, phi):
-        """Додатковий конструктор, який створює комплексне число з 
-        тригонометричної форми."""
         x = r * cos(phi)
         y = r * sin(phi)
         res = cls(x, y)
@@ -55,7 +72,6 @@ class ComplexNumber:
     def radius(self): 
         return self.norm()
 
-    # використовуємо кешування для тригонометричної форми
     @property
     def r(self): 
         if self._r is None:        
@@ -146,6 +162,10 @@ class ComplexNumber:
         phi = phi * power 
         return self.from_trigonometric(r, phi)
 
+    # для використання комплексного числа як ключа в словнику
+    def __hash__(self): 
+        return super().__hash__()
+
     def __rmul__(self, other): 
         return self * other 
 
@@ -170,14 +190,6 @@ class ComplexNumber:
             fig = plt 
 
         fig.scatter([self.x], [self.y])
-
-    # реалізація розпакування
-    def __iter__(self): 
-        return iter([self.x, self.y])
-
-    # для того, щоб можна було число робити ключем в словнику
-    def __hash__(self): 
-        return hash((self._x, self._y))
 
     def as_trigonometric(self): 
         """Повертає r, phi -- модуль і кут."""
@@ -237,6 +249,7 @@ if __name__ == '__main__':
     print(test_dict)
 
     print(ComplexNumber(2, 3) in test_dict)    # True 
+
 
     print(test_number.r)
     test_number._x = 10

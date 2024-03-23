@@ -1,4 +1,5 @@
 from math import sqrt, asin, pi, cos, sin
+from dataclasses import dataclass
 
 try: 
     import matplotlib.pyplot as plt 
@@ -8,65 +9,56 @@ except ImportError:
     plt = None 
 
 
-class ComplexNumber: 
+@dataclass(frozen=True, slots=True)
+class ComplexNumber:
+    """Ще один спосіб зробити клас незмінним -- використати відносно 
+    новий спосіб через dataclasses. Датакласи -- це класи, які імітують 
+    структури в С/C++, тобто це ефективний спосіб створити клас, у 
+    якого є тільки атрибути. 
+    
+    Замість того, щоб писати 
 
-    # додаємо наші атрибути у спеціальну властивість всіх класів __slots__, 
-    # щоб зменшити використання памʼяті і збільшити швидкодію
-    # Зауваження (спойлер): по хорошому варто було б використати dataclass або 
-    #     наслідуватись від кортежа / іменованого кортежа, щоб зробити цей клас 
-    #     незмінним
-    __slots__ = ['_x', '_y', '_r', '_phi']
+    >>> class Test: 
+             def __init__(self, x: int, y: str, z: float): 
+                   self.x = x
+                   self.y = y
+                   self.z = z
+    
+    Можна просто написати 
 
-    def __init__(self, x, y): 
-        """Ініціалізувати комплексне число x + y*i.
-
-        :param x: real part 
-        :param y: imaginary part
-        """        
-        # зберігаємо дійсну і уявну частину як приватні атрибути
-        self._x = x 
-        self._y = y
-
-        # тригонометрична форма, яка буде обраховуватись тільки якщо треба буде
-        self._r = None 
-        self._phi = None
-
-    @property
-    def x(self): 
-        return self._x
-
-    @property
-    def y(self): 
-        return self._y
+    >>> from dataclasses import dataclass 
+    >>> @dataclass 
+        class Test: 
+            x: int 
+            y: str 
+            z: float 
+    
+    Ба більше, датакласи дозволяють робити ці атрибути незмінними, а також перевіряти 
+    їхній тип. Більше можна знайти в документації: 
+    https://docs.python.org/3/library/dataclasses.html
+    """ 
+    x: float  
+    y: float 
 
     @classmethod
     def from_trigonometric(cls, r, phi):
-        """Додатковий конструктор, який створює комплексне число з 
-        тригонометричної форми."""
         x = r * cos(phi)
         y = r * sin(phi)
-        res = cls(x, y)
-        res._r = r 
-        res._phi = phi
-    
+        return cls(x, y)
+        
     def norm(self): 
         return sqrt(self.x ** 2 + self.y ** 2)
     
     def radius(self): 
         return self.norm()
 
-    # використовуємо кешування для тригонометричної форми
     @property
     def r(self): 
-        if self._r is None:        
-            self._r = self.norm()
-        return self._r
+        return self.norm()
 
     @property
     def phi(self): 
-        if self._phi is None: 
-            self._phi = self.angle()
-        return self._phi
+        return self.angle()
 
     def angle(self): 
         if self == 0: 
@@ -103,6 +95,9 @@ class ComplexNumber:
         if not isinstance(other, cls): 
             raise TypeError(f"unsupported operation for {cls} and {type(other)}")
         return other
+
+    def __iter__(self): 
+        return iter([self.x, self.y])
 
     def __add__(self, other): 
         """Перевизначити додавання self + other (наш об'єкт стоїть зліва)."""
@@ -171,14 +166,6 @@ class ComplexNumber:
 
         fig.scatter([self.x], [self.y])
 
-    # реалізація розпакування
-    def __iter__(self): 
-        return iter([self.x, self.y])
-
-    # для того, щоб можна було число робити ключем в словнику
-    def __hash__(self): 
-        return hash((self._x, self._y))
-
     def as_trigonometric(self): 
         """Повертає r, phi -- модуль і кут."""
         return self.r, self.phi
@@ -238,13 +225,17 @@ if __name__ == '__main__':
 
     print(ComplexNumber(2, 3) in test_dict)    # True 
 
+
     print(test_number.r)
-    test_number._x = 10
+
+    # має видати помилку
+    # test_number._x = 10
     print(test_number.r)
     print(test_number.radius())
 
     print(ComplexNumber(2, 3) in test_dict)  # False
     print(test_number)
 
+    # як можна побачити, використання dataclasses вийшло найбільш ефективним по памʼяті
     import sys
     print(f'Розмір комплексного числа в байтах: {sys.getsizeof(test_number)}')

@@ -1,0 +1,8 @@
+{
+  "some_key": "some_value",
+  "some_key2": [
+    "list",
+    "of",
+    "values"
+  ]
+}
